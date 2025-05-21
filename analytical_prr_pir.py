@@ -10,7 +10,7 @@ def calculate_analytical_results(
     maxchannel, slot, s, rc1, rc2, rri, p_res_ik, max_distance, step_distance
 ):
     """
-    Calculate analytical PRR and PIR for SPC6G and NRV2X protocols.
+    Calculate analytical PRR and PIR for dchpt and NRV2X protocols.
 
     Parameters:
     - channels: Total number of communication channels.
@@ -31,7 +31,7 @@ def calculate_analytical_results(
     - step_distance: Distance increment for analysis.
 
     Returns:
-    - PRR and PIR results for SPC6G and NRV2X protocols.
+    - PRR and PIR results for dchpt and NRV2X protocols.
     """
     # Convert parameters from dB to linear scale
     P_s = 10 ** (P_s_dB / 10)
@@ -45,8 +45,8 @@ def calculate_analytical_results(
     distances = list(range(0, max_distance + step_distance, step_distance))
 
     # Initialize result containers
-    prr_spc6G, prr_nrv2x = [], []
-    pir_spc6G, pir_nrv2x = [], []
+    prr_dchpt, prr_nrv2x = [], []
+    pir_dchpt, pir_nrv2x = [], []
 
     # Calculate resources (R) and sensing ratios
     channel_slot = maxchannel / channels
@@ -83,11 +83,11 @@ def calculate_analytical_results(
             ps_dik_nr_values.append(ps_dik_nr)
             
 
-        # Calculate PRR and PIR for SPC6G and NRV2X
-        prr_spc6G.append(calculate_prr_dij(1-np.prod(ps_values)))
+        # Calculate PRR and PIR for dchpt and NRV2X
+        prr_dchpt.append(calculate_prr_dij(1-np.prod(ps_values)))
         prr_nrv2x.append(calculate_prr_dij(1-np.prod(ps_dik_nr_values)))
-        pir_spc6G.append(calculate_pir_dij(1-np.prod(ps_values), rri))
+        pir_dchpt.append(calculate_pir_dij(1-np.prod(ps_values), rri))
         pir_nrv2x.append(calculate_pir_dij(1-np.prod(ps_dik_nr_values), rri))
 
-    return prr_spc6G, prr_nrv2x, pir_spc6G, pir_nrv2x
+    return prr_dchpt, prr_nrv2x, pir_dchpt, pir_nrv2x
 

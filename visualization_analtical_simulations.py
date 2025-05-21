@@ -16,7 +16,7 @@ def compare_beta_with_tolerance(beta1, beta2, tol=1e-3):
 
 # Function to find the communication range
 def find_communication_range(data, PRR_threshold):
-    valid_data = data[data['cumulative_PDR'] >= PRR_threshold]
+    valid_data = data[data['cumulative_PRR'] >= PRR_threshold]
     if not valid_data.empty:
         return valid_data['distance_bin'].max()
     else:
@@ -43,7 +43,7 @@ analytical_df = pd.read_csv(analytical_data_path)
 metric_df = pd.read_csv(metric_data_path)
 
 # Map protocol types
-protocol_names = {0: 'NRV2X', 2: 'SPC6G'}
+protocol_names = {0: 'NRV2X', 2: 'DCHPT'}
 metric_df['protocol_type'] = metric_df['protocol_type'].map(protocol_names)
 
 # Map num_lanes to beta (reverse relationship)
@@ -52,16 +52,16 @@ metric_df['beta'] = metric_df['num_lanes'] / 40
 # Unique values for MCS, numerology, and protocol
 unique_mcs = analytical_df['MCS'].unique()
 unique_numerology = analytical_df['numerology'].unique()
-unique_protocols = ['SPC6G', 'NRV2X']
+unique_protocols = ['DCHPT', 'NRV2X']
 
 # Plot settings
-output_folder = 'SPS6G_plots'
+output_folder = 'DCHPT_plots'
 ensure_folder_exists(output_folder)
 
-# Plot PDR and PIR for each combination of MCS, numerology, and beta
+# Plot PRR and PIR for each combination of MCS, numerology, and beta
 for mcs in unique_mcs:
     for numerology in unique_numerology:
-        # PDR Plot
+        # PRR Plot
         plt.figure()
         for protocol in unique_protocols:
             protocol_name = protocol_names.get(protocol, f'{protocol}')
@@ -88,28 +88,28 @@ for mcs in unique_mcs:
                 if not analytical_data_beta.empty:
                     plt.plot(
                         analytical_data_beta['distance_bin'],
-                        analytical_data_beta['cumulative_PDR'],
+                        analytical_data_beta['cumulative_PRR'],
                         label=f'Ana. {protocol_name}, $\\beta$={beta}',
-                        linestyle='--', marker='o'
+                        linestyle='-', marker=''
                     )
 
                 # Plot Simulation Data
                 if not metric_data_beta.empty:
                     plt.plot(
                         metric_data_beta['distance_bin'],
-                        metric_data_beta['cumulative_PDR'],
+                        metric_data_beta['cumulative_PRR'],
                         label=f'Sim. {protocol_name}, $\\beta$={beta}',
-                        linestyle='-', marker='x'
+                        linestyle='', marker='x'
                     )
 
-        # Customize PDR plot
+        # Customize PRR plot
         plt.ylim(0.7, 1)
         plt.xlabel('Distance (m)')
         plt.ylabel('PRR')
         plt.legend()
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig(f'{output_folder}/PDR_MCS{mcs}_Numerology{numerology}.pdf', format='pdf')
+        plt.savefig(f'{output_folder}/PRR_MCS{mcs}_Numerology{numerology}.pdf', format='pdf')
         plt.show()
 
         # PIR Plot
@@ -141,7 +141,7 @@ for mcs in unique_mcs:
                         analytical_data_beta['distance_bin'],
                         analytical_data_beta['cumulative_PIR'],
                         label=f'Ana. {protocol_name}, $\\beta$={beta}',
-                        linestyle='--', marker='o'
+                        linestyle='-', marker=''
                     )
 
                 # Plot Simulation Data
@@ -150,7 +150,7 @@ for mcs in unique_mcs:
                         metric_data_beta['distance_bin'],
                         metric_data_beta['cumulative_PIR'],
                         label=f'Sim. {protocol_name}, $\\beta$={beta}',
-                        linestyle='-', marker='x'
+                        linestyle='', marker='x'
                     )
 
         # Customize PIR plot

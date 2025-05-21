@@ -1,8 +1,8 @@
-# README for SPC6G Simulation and Analysis
+# README for DCHPT Simulation and Analysis
 
 ## Overview
 
-This project is based on the research paper titled **"SPC6G: Towards Efficient Resource Allocation in 6GV2X Networks: A Smart Predictive Collision Framework"**. The project provides analytical and simulation-based tools to evaluate the performance of the SPC6G and NRV2X protocols using Packet Reception Ratio (PRR) and Packet Inter-Reception Rate (PIR) metrics. The analysis spans urban and highway scenarios.
+This project is based on the research paper titled **"Beyond Random Reselection: Deterministic Collision Handling with Smart Predictive Resource Tracking for Reliable Vehicular Sidelink Communications"**. The project provides analytical and simulation-based tools to evaluate the performance of the SPC6G and NRV2X protocols using Packet Reception Ratio (PRR) and Packet Inter-Reception Rate (PIR) metrics. The analysis spans urban and highway scenarios.
 
 ## Structure
 
@@ -58,7 +58,7 @@ $ python visualization_simulations_urban.py
 
 1. **Plots**
 
-   - Saved in `SPS6G_plots` or `SPS6G_plots_sim_highway` or `SPS6G_plots_sim_urban` folders.
+   - Saved in `DCHPT_plots` or `DCHPT_plots_sim_highway` or `DCHPT_plots_sim_urban` folders.
    - Includes PRR vs Distance and PIR vs Distance graphs.
 
 2. **CSV Files**
@@ -71,7 +71,7 @@ $ python visualization_simulations_urban.py
 
 If you use this project or its findings in your research, please cite the paper:
 
-**Towards Efficient Resource Allocation in 6GV2X Networks: A Smart Predictive Collision Framework**\
+**Beyond Random Reselection: Deterministic Collision Handling with Smart Predictive Resource Tracking for Reliable Vehicular Sidelink Communications**\
 *Authors: [Mahmoud Elsharief, Saifur Rahman Sabuj, and Han-Shin Jo]*\
 
 

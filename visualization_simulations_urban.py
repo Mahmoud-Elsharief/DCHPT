@@ -25,26 +25,26 @@ plt.rcParams.update({
 })
 
 # Specify folder to save plots
-output_folder = 'SPC6G_plots_sim_urban'
+output_folder = 'DCHPT_plots_sim_urban'
 ensure_folder_exists(output_folder)
 
-# Map protocol types in the metric data (0 = NRV2X, 2 = SPC6G)
-protocol_names = {0: 'NRV2X', 2: 'SPC6G'}
+# Map protocol types in the metric data (0 = NRV2X, 2 = DCHPT)
+protocol_names = {0: 'NRV2X', 6: 'NRV2X_S1', 2: 'DCHPT'}
 metric_df['protocol_type'] = metric_df['protocol_type'].map(protocol_names)
 
 # Extract unique values for MCS, numerology, and protocols
 unique_mcs = metric_df['MCS'].unique()
 unique_numerology = metric_df['numerology'].unique()
-unique_protocols = ['SPC6G', 'NRV2X']
+unique_protocols = ['DCHPT', 'NRV2X', 'NRV2X_S1']
 
-# Iterate over MCS and numerology to plot PDR and PIR
+# Iterate over MCS and numerology to plot PRR and PIR
 for mcs in unique_mcs:
     for numerology in unique_numerology:
 
-        # Plot PDR (Packet Delivery Ratio)
+        # Plot PRR (Packet Delivery Ratio)
         plt.figure()
         for protocol in unique_protocols:
-            # Filter simulation data for PDR
+            # Filter simulation data for PRR
             metric_data = metric_df[
                 (metric_df['protocol_type'] == protocol) &
                 (metric_df['MCS'] == mcs) &
@@ -55,12 +55,12 @@ for mcs in unique_mcs:
             if not metric_data.empty:
                 plt.plot(
                     metric_data['distance_bin'],
-                    metric_data['cumulative_PDR'],
+                    metric_data['cumulative_PRR'],
                     label=f'{protocol}',
-                    linestyle='-', marker='x'
+                    linestyle='--', marker='x'
                 )
 
-        # Customize PDR plot
+        # Customize PRR plot
         #plt.ylim(0.7, 1)
         plt.xlabel('Distance (m)')
         plt.ylabel('PRR')
@@ -68,8 +68,8 @@ for mcs in unique_mcs:
         plt.grid(True)
         plt.tight_layout()
 
-        # Save PDR plot
-        plt.savefig(f'{output_folder}/PDR_MCS{mcs}_Numerology{numerology}.pdf', format='pdf')
+        # Save PRR plot
+        plt.savefig(f'{output_folder}/PRR_MCS{mcs}_Numerology{numerology}.pdf', format='pdf')
         plt.show()
 
         # Plot PIR (Packet Inter-Reception Rate)
@@ -88,7 +88,7 @@ for mcs in unique_mcs:
                     metric_data['distance_bin'],
                     metric_data['cumulative_PIR'],
                     label=f'{protocol}',
-                    linestyle='-', marker='x'
+                    linestyle='--', marker='x'
                 )
 
         # Customize PIR plot
